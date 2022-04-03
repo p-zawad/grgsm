@@ -1,0 +1,15 @@
+#!/bin/bash
+USER_UID=$(id -u)
+
+docker run --rm -ti --name "grgsm" --privileged\
+  --net=host --env="DISPLAY"\
+  --volume="$HOME/.Xauthority:/root/.Xauthority:rw"\
+  -v "$(pwd)/persistent_storage":/home/student/persistent\
+  -v /var/run/dbus:/var/run/dbus\
+  --device /dev/bus/usb\
+  --device /dev/snd\
+  -v /dev/snd:/dev/snd\
+   --volume=/run/user/${USER_UID}/pulse:/run/user/1000/pulse\
+  pzawad/grgsm tilix
+
+  #  pzawad/grgsm dbus-run-session tilix --session=persistent/tilix.json
